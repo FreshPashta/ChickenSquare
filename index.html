@@ -56,49 +56,12 @@
       z-index: 100;
       border-bottom: 1px solid var(--border-color);
     }
-    .nav-shell {
-      max-width: var(--maxw);
-      margin: 0 auto;
-      position: relative;
-    }
-    .nav-toggle {
-      display: none;
-      width: 100%;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      background: rgba(30,30,30,0.45);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--text-primary);
-      padding: 12px 14px;
-      border-radius: 14px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .nav-toggle-label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-    }
-    .nav-toggle-page {
-      color: var(--text-secondary);
-      font-weight: 600;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .nav-toggle-icon {
-      font-size: 18px;
-      line-height: 1;
-    }
     .nav-inner {
       max-width: var(--maxw);
       margin: 0 auto;
       display: flex;
       gap: 10px;
-      align-items: center;
+      overflow-x: auto;
     }
     nav button {
       background: none;
@@ -282,17 +245,7 @@
       border-radius: var(--border-radius);
       padding: 14px;
     }
-<link rel="icon" type="image/png" href="logo2.png">
-<link rel="apple-touch-icon" href="logo2.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Chicken Square">
 
-<meta property="og:title" content="Chicken Square">
-<meta property="og:image" content="logo2.png">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="logo2.png">
-    }
     .source-link {
       text-decoration: none;
       display: block;
@@ -377,52 +330,19 @@
       .brand-lockup { align-items: flex-start; gap: 16px; }
       .brand-logo { width: 122px; height: 122px; }
       .card { padding: 18px; }
-      .nav-toggle { display: flex; }
-      .nav-inner {
-        display: none;
-        position: absolute;
-        top: calc(100% + 10px);
-        left: 0;
-        right: 0;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-        background: rgba(21,24,37,0.98);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 16px;
-        padding: 12px;
-        box-shadow: 0 14px 30px rgba(0,0,0,.28);
-      }
-      .nav-inner.open { display: grid; }
-      .nav-inner button {
-        width: 100%;
-        text-align: left;
-        white-space: normal;
-        min-height: 48px;
-        background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(255,255,255,0.06);
-      }
     }
   </style>
 </head>
 <body>
   <nav>
-    <div class="nav-shell">
-      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navMenu" onclick="toggleMobileMenu()">
-        <span class="nav-toggle-label">
-          <span>Menu</span>
-          <span class="nav-toggle-page" id="navCurrentLabel">Home</span>
-        </span>
-        <span class="nav-toggle-icon" id="navToggleIcon">☰</span>
-      </button>
-      <div class="nav-inner" id="navMenu">
-        <button id="nav-home" class="active" onclick="navigate('home')">Home</button>
-        <button id="nav-symptom-checker" onclick="navigate('symptom-checker')">Symptom Checker</button>
-        <button id="nav-results" onclick="navigate('results')">Results</button>
-        <button id="nav-learn" onclick="navigate('learn')">Care & Learning</button>
-        <button id="nav-history" onclick="navigate('history')">History</button>
-        <button id="nav-recipe" onclick="openRecipeMenu()">Chicken Squares</button>
-        <button id="nav-sources" onclick="navigate('sources')">Sources</button>
-      </div>
+    <div class="nav-inner">
+      <button id="nav-home" class="active" onclick="navigate('home')">Home</button>
+      <button id="nav-symptom-checker" onclick="navigate('symptom-checker')">Symptom Checker</button>
+      <button id="nav-results" onclick="navigate('results')">Results</button>
+      <button id="nav-learn" onclick="navigate('learn')">Care & Learning</button>
+      <button id="nav-history" onclick="navigate('history')">History</button>
+      <button id="nav-recipe" onclick="navigate('recipe')">Chicken Squares</button>
+      <button id="nav-sources" onclick="navigate('sources')">Sources</button>
     </div>
   </nav>
   <main class="container">
@@ -433,7 +353,6 @@
             <div class="brand-copy">
               <h1>Chicken Square</h1>
               <p class="lead">A backyard chicken reference app designed just for you, Kaubs!</p>
-              <p>Feel free to share with any chicken owners.</p>
             </div>
             <img src="logo.png" alt="Chicken Square logo" class="brand-logo" />
           </div>
@@ -543,7 +462,7 @@
     <section id="view-learn" class="view">
       <div class="card">
         <h2>Care & Learning</h2>
-        <p>This is for general chicken info.</p>
+        <p>This section keeps the app useful as a general chicken reference, not only a symptom triage tool.</p>
       </div>
       <div id="learnContent"></div>
     </section>
@@ -560,8 +479,8 @@
 
     <section id="view-recipe" class="view">
       <div class="card">
-        <h2>Devon's Chicken Squares</h2>
-        <p>A recipe for the best Chicken Squares!</p>
+        <h2>Chicken Squares</h2>
+        <p>A neat recipe format for the classic Chicken Squares dish.</p>
         <div class="recipe-meta">
           <span class="recipe-pill">Makes about 8 squares</span>
           <span class="recipe-pill">Bake at 350°F</span>
@@ -605,7 +524,7 @@
       <div class="card">
         <h3>Recipe notes</h3>
         <ul>
-          <li>Use just enough milk to make the filling creamy and easy to scoop.</li>
+          <li>The original wording says 2 to 4 tablespoons milk, so use just enough to make the filling creamy and easy to scoop.</li>
           <li>Chicken breasts are preferred, but any cooked chicken cut into small cubes should work.</li>
           <li>Press the crescent dough seams together well so the filling stays enclosed while baking.</li>
         </ul>
@@ -664,7 +583,7 @@
   <audio id="chickenSound" preload="auto">
     <source src="chicken-cluck.mp3" type="audio/mpeg" />
   </audio>
-  <footer>App by Dakota Boehmer</footer>
+  <footer>App by D.R.Boehmer</footer>
   <script>
     const STORAGE_KEY = 'chicken_square_history_v5';
     const APP = {
@@ -1126,23 +1045,28 @@
     }
     function renderCategoryButtons() {
       const container = document.getElementById('categoryContainer');
-      container.innerHTML = APP.categories.map((item, idx) => `
+      container.innerHTML = APP.categories.map((item) => `
         <label class="checkbox-label">
-          <input type="radio" name="primaryCategory" value="${escapeHtml(item.id)}" ${idx === 0 ? 'checked' : ''} onchange="renderSymptoms()" />
+          <input type="checkbox" name="primaryCategory" value="${escapeHtml(item.id)}" onchange="renderSymptoms()" />
           <span>${escapeHtml(item.label)}</span>
         </label>
       `).join('');
     }
     function renderSymptoms() {
-      const category = document.querySelector('input[name="primaryCategory"]:checked')?.value || APP.categories[0].id;
-      const core = APP.symptoms.filter(s => s.categories.includes(category));
-      const universal = APP.symptoms.filter(s => ['general'].some(cat => s.categories.includes(cat)) && !core.some(c => c.id === s.id));
-      const extras = category === 'respiratory' ? ['purpleComb','headEdema','wateryGreenDroppings','twistedNeck'] : [];
-      const extraSymptoms = APP.symptoms.filter(s => extras.includes(s.id) && !core.some(c => c.id === s.id));
-      const list = [...core, ...extraSymptoms, ...universal].slice(0, 20);
+      const selectedCategories = [...document.querySelectorAll('input[name="primaryCategory"]:checked')].map(n => n.value);
+      const previouslyChecked = new Set(
+        [...document.querySelectorAll('input[data-role="symptom"]:checked')].map(n => n.value)
+      );
+
+      let list = !selectedCategories.length
+        ? APP.symptoms
+        : APP.symptoms.filter(symptom =>
+            symptom.categories.some(cat => selectedCategories.includes(cat))
+          );
+
       document.getElementById('symptomContainer').innerHTML = list.map(item => `
         <label class="checkbox-label">
-          <input type="checkbox" data-role="symptom" value="${escapeHtml(item.id)}" />
+          <input type="checkbox" data-role="symptom" value="${escapeHtml(item.id)}" ${previouslyChecked.has(item.id) ? 'checked' : ''} />
           <span>${escapeHtml(item.label)}</span>
         </label>
       `).join('');
@@ -1153,7 +1077,7 @@
         birdAge: document.getElementById('birdAge').value,
         duration: document.getElementById('duration').value,
         trajectory: document.getElementById('trajectory').value,
-        category: document.querySelector('input[name="primaryCategory"]:checked')?.value || 'general',
+        categories: [...document.querySelectorAll('input[name="primaryCategory"]:checked')].map(n => n.value),
         symptoms: [...document.querySelectorAll('input[data-role="symptom"]:checked')].map(n => n.value)
       };
       [...document.querySelectorAll('input[data-role="context"]:checked')].forEach(n => data[n.value] = true);
@@ -1167,6 +1091,7 @@
       sound.play().catch(() => {});
     }
     function runAssessment() {
+      playChickenSound();
       const data = getSelections();
       const result = evaluateAssessment(data);
       saveHistory(data, result);
@@ -1406,36 +1331,15 @@
       document.getElementById('duration').value = 'today';
       document.getElementById('trajectory').value = 'stable';
       document.querySelectorAll('input[data-role="context"]').forEach(i => i.checked = false);
-      document.querySelectorAll('input[name="primaryCategory"]')[0].checked = true;
+      document.querySelectorAll('input[name="primaryCategory"]').forEach(i => i.checked = false);
       renderSymptoms();
       document.querySelectorAll('input[data-role="symptom"]').forEach(i => i.checked = false);
     }
-    function toggleMobileMenu(forceOpen = null) {
-      const menu = document.getElementById('navMenu');
-      const toggle = document.getElementById('navToggle');
-      const icon = document.getElementById('navToggleIcon');
-      if (!menu || !toggle || !icon) return;
-      const shouldOpen = forceOpen === null ? !menu.classList.contains('open') : forceOpen;
-      menu.classList.toggle('open', shouldOpen);
-      toggle.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
-      icon.textContent = shouldOpen ? '✕' : '☰';
-    }
-    function updateMobileNavLabel(viewId) {
-      const activeButton = document.getElementById('nav-' + viewId);
-      const label = document.getElementById('navCurrentLabel');
-      if (activeButton && label) label.textContent = activeButton.textContent;
-    }
-    function openRecipeMenu() {
-      playChickenSound();
-      navigate('recipe');
-    }
     function navigate(viewId) {
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      document.querySelectorAll('.nav-inner button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
       document.getElementById('view-' + viewId).classList.add('active');
       document.getElementById('nav-' + viewId).classList.add('active');
-      updateMobileNavLabel(viewId);
-      toggleMobileMenu(false);
       if (viewId === 'history') renderHistory();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1451,11 +1355,6 @@
         .replaceAll("'", '&#39;');
     }
     init();
-    updateMobileNavLabel('home');
-    document.addEventListener('click', (event) => {
-      const shell = document.querySelector('.nav-shell');
-      if (shell && !shell.contains(event.target)) toggleMobileMenu(false);
-    });
   </script>
 </body>
 </html>
