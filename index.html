@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#4659c7" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Chicken Square</title>
   <link rel="icon" type="image/png" href="logo.png" />
   <style>
@@ -29,28 +31,24 @@
       --shadow: 0 8px 20px rgba(0,0,0,.18);
       --maxw: 1080px;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(180deg, #101010 0%, #151515 100%);
+      background: linear-gradient(180deg, #4c5fd0 0%, #355fbe 16%, #18202b 40%, #121212 100%);
       color: var(--text-primary);
       line-height: 1.6;
       padding-bottom: 64px;
     }
-
     h1, h2, h3, h4 { margin-bottom: var(--spacing-sm); color: var(--text-primary); line-height: 1.2; }
     p { margin-bottom: var(--spacing-md); color: var(--text-secondary); }
     ul { padding-left: 18px; }
     li { margin-bottom: 8px; color: var(--text-secondary); }
     strong { color: var(--text-primary); }
     a { color: var(--accent-color); }
-
     .container { max-width: var(--maxw); margin: 0 auto; padding: var(--spacing-md); }
-
     nav {
-      background-color: rgba(30, 30, 30, 0.94);
+      background: linear-gradient(90deg, rgba(76,95,208,0.94), rgba(53,95,190,0.90));
       backdrop-filter: blur(10px);
       padding: 12px 16px;
       position: sticky;
@@ -58,7 +56,6 @@
       z-index: 100;
       border-bottom: 1px solid var(--border-color);
     }
-
     .nav-inner {
       max-width: var(--maxw);
       margin: 0 auto;
@@ -66,7 +63,6 @@
       gap: 10px;
       overflow-x: auto;
     }
-
     nav button {
       background: none;
       border: none;
@@ -78,14 +74,11 @@
       border-radius: var(--border-radius);
       transition: all 0.2s ease;
     }
-
     nav button:hover { background-color: var(--surface-light); color: var(--text-primary); }
     nav button.active { background-color: var(--surface-light); color: var(--accent-color); font-weight: 700; }
-
     .view { display: none; animation: fadeIn 0.25s ease; }
     .view.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
     .card {
       background-color: var(--surface-color);
       border-radius: var(--border-radius);
@@ -94,7 +87,6 @@
       border: 1px solid var(--border-color);
       box-shadow: var(--shadow);
     }
-
     .hero {
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
@@ -102,7 +94,6 @@
       align-items: stretch;
       margin-top: var(--spacing-md);
     }
-
     .brand-lockup {
       display: flex;
       align-items: center;
@@ -110,25 +101,21 @@
       gap: var(--spacing-lg);
       margin-bottom: var(--spacing-md);
     }
-
     .brand-copy { flex: 1 1 auto; min-width: 0; }
     .brand-copy h1 { font-size: clamp(2.1rem, 4vw, 3.4rem); margin-bottom: 10px; }
     .lead { font-size: 1.02rem; max-width: 62ch; }
-
     .brand-logo {
-      width: 150px;
-      height: 150px;
+      width: 168px;
+      height: 168px;
       object-fit: cover;
       border-radius: 20px;
       background: var(--surface-light);
       border: 1px solid var(--border-color);
       flex: 0 0 auto;
     }
-
     .grid-2, .grid-3 { display: grid; gap: var(--spacing-md); }
     .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-
     .button-row { display: flex; gap: var(--spacing-md); flex-wrap: wrap; margin-top: var(--spacing-md); }
     .btn {
       display: inline-flex;
@@ -148,11 +135,9 @@
     .btn:hover { background-color: var(--accent-hover); transform: translateY(-1px); }
     .btn-secondary { background-color: var(--surface-light); color: var(--text-primary); border: 1px solid var(--border-color); }
     .btn-secondary:hover { background-color: var(--surface-lighter); }
-
     .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-md); }
     .form-group { margin-bottom: var(--spacing-md); }
     label { display: block; margin-bottom: 7px; font-weight: 600; }
-
     select {
       width: 100%;
       padding: 12px;
@@ -163,7 +148,6 @@
       font-size: 15px;
       appearance: none;
     }
-
     .checkbox-group { display: grid; gap: 10px; }
     .checkbox-label {
       display: flex;
@@ -178,7 +162,6 @@
     }
     .checkbox-label:hover { background-color: #393939; border-color: #444; }
     input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; cursor: pointer; margin-top: 2px; }
-
     .pill-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
     .pill {
       display: inline-flex;
@@ -190,13 +173,11 @@
       color: var(--text-secondary);
       font-size: 0.88rem;
     }
-
     .level-card { border-left: 6px solid var(--monitor); }
     .level-Emergency { border-left-color: var(--emergency); }
     .level-Urgent { border-left-color: var(--urgent); }
     .level-Soon { border-left-color: var(--monitor); }
     .level-Routine { border-left-color: var(--routine); }
-
     .tag {
       display: inline-block;
       padding: 5px 9px;
@@ -209,7 +190,6 @@
     .tag-Urgent { background: rgba(252,110,81,0.18); color: var(--urgent); }
     .tag-Soon { background: rgba(79,193,233,0.18); color: var(--monitor); }
     .tag-Routine { background: rgba(160,212,104,0.18); color: var(--routine); }
-
     .alert {
       padding: var(--spacing-md);
       border-radius: var(--border-radius);
@@ -219,14 +199,12 @@
     }
     .alert-warning { background-color: rgba(237,85,101,0.12); border-left-color: var(--emergency); }
     .alert-info { background-color: rgba(93,156,236,0.12); border-left-color: var(--accent-color); }
-
     .results-layout {
       display: grid;
       grid-template-columns: 1.02fr 0.98fr;
       gap: var(--spacing-md);
       align-items: start;
     }
-
     .diagnosis-list { display: grid; gap: 12px; }
     .diagnosis-card {
       background: var(--surface-light);
@@ -260,13 +238,50 @@
       margin-bottom: 10px;
     }
     .score-fill { height: 100%; background: linear-gradient(90deg, #4a89dc, #5d9cec); }
-
     .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
     .detail-box {
       background: var(--surface-light);
       border: 1px solid var(--border-color);
       border-radius: var(--border-radius);
       padding: 14px;
+    }
+
+    .source-link {
+      text-decoration: none;
+      display: block;
+      height: 100%;
+    }
+    .source-link:hover {
+      background-color: var(--surface-light);
+      border-color: #444;
+    }
+    .recipe-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: var(--spacing-md);
+    }
+    .recipe-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--surface-light);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: var(--spacing-md);
+      align-items: start;
+    }
+    .recipe-steps ol {
+      padding-left: 20px;
+    }
+    .recipe-steps li {
+      margin-bottom: 12px;
     }
 
     .section-heading { margin-top: var(--spacing-xl); margin-bottom: var(--spacing-md); }
@@ -286,7 +301,6 @@
     }
     .muted { color: var(--text-secondary); }
     .small { font-size: 0.92rem; }
-
     footer {
       text-align: center;
       padding: 12px 16px;
@@ -296,10 +310,9 @@
       position: fixed;
       bottom: 0;
       width: 100%;
-      background-color: rgba(18,18,18,.96);
+      background: rgba(18,18,18,.96);
       z-index: 10;
     }
-
     @media print {
       nav, footer, .btn, .no-print { display: none !important; }
       body { background-color: white; color: black; padding: 0; }
@@ -308,15 +321,14 @@
       .view { display: none !important; }
       #view-results.active { display: block !important; }
     }
-
     @media (max-width: 960px) {
-      .hero, .results-layout, .grid-3 { grid-template-columns: 1fr; }
+      .hero, .results-layout, .grid-3, .recipe-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 700px) {
       .grid-2, .form-grid, .detail-grid { grid-template-columns: 1fr; }
       .button-row { flex-direction: column; }
       .brand-lockup { align-items: flex-start; gap: 16px; }
-      .brand-logo { width: 110px; height: 110px; }
+      .brand-logo { width: 122px; height: 122px; }
       .card { padding: 18px; }
     }
   </style>
@@ -329,10 +341,10 @@
       <button id="nav-results" onclick="navigate('results')">Results</button>
       <button id="nav-learn" onclick="navigate('learn')">Care & Learning</button>
       <button id="nav-history" onclick="navigate('history')">History</button>
+      <button id="nav-recipe" onclick="navigate('recipe')">Chicken Squares</button>
       <button id="nav-sources" onclick="navigate('sources')">Sources</button>
     </div>
   </nav>
-
   <main class="container">
     <section id="view-home" class="view active">
       <div class="hero">
@@ -349,7 +361,6 @@
             <button class="btn btn-secondary" onclick="navigate('learn')">Open learning center</button>
           </div>
         </div>
-
         <div class="card">
           <h3>What this does</h3>
           <ul>
@@ -359,7 +370,6 @@
           </ul>
         </div>
       </div>
-
       <h2 class="section-heading">How to use it</h2>
       <div class="grid-3">
         <div class="card">
@@ -388,13 +398,11 @@
         </div>
       </div>
     </section>
-
     <section id="view-symptom-checker" class="view">
       <div class="card">
         <h2>Symptom Checker</h2>
         <p>Choose the signs that best match what you are seeing. This version relies much more on distinguishing features like green diarrhea, bubbly eye, foul-smelling facial discharge, gray eye, penguin stance, lash egg history, and bloody mucus.</p>
       </div>
-
       <div class="grid-2">
         <div class="card">
           <h3>Bird details</h3>
@@ -417,13 +425,11 @@
             </div>
           </div>
         </div>
-
         <div class="card">
           <h3>Flock context</h3>
           <div class="checkbox-group" id="contextContainer"></div>
         </div>
       </div>
-
       <div class="grid-2">
         <div class="card">
           <h3>Primary symptom groups</h3>
@@ -434,13 +440,11 @@
           <div class="checkbox-group" id="symptomContainer"></div>
         </div>
       </div>
-
       <div class="button-row">
         <button class="btn" onclick="runAssessment()">Get assessment</button>
         <button class="btn btn-secondary" onclick="resetChecker()">Reset</button>
       </div>
     </section>
-
     <section id="view-results" class="view">
       <div class="card">
         <h2>Assessment Results</h2>
@@ -455,7 +459,6 @@
         <button class="btn" onclick="navigate('symptom-checker')">Back to checker</button>
       </div>
     </section>
-
     <section id="view-learn" class="view">
       <div class="card">
         <h2>Care & Learning</h2>
@@ -463,7 +466,6 @@
       </div>
       <div id="learnContent"></div>
     </section>
-
     <section id="view-history" class="view">
       <div class="card">
         <h2>History</h2>
@@ -475,58 +477,102 @@
       </div>
     </section>
 
+    <section id="view-recipe" class="view">
+      <div class="card">
+        <h2>Chicken Squares</h2>
+        <p>A neat recipe format for the classic Chicken Squares dish.</p>
+        <div class="recipe-meta">
+          <span class="recipe-pill">Makes about 8 squares</span>
+          <span class="recipe-pill">Bake at 350°F</span>
+          <span class="recipe-pill">Bake time: 35–40 minutes</span>
+        </div>
+      </div>
+
+      <div class="recipe-grid">
+        <div class="card">
+          <h3>Ingredients</h3>
+          <ul>
+            <li>8 oz cream cheese</li>
+            <li>2 tbsp butter, plus extra melted butter for brushing</li>
+            <li>4 cups cubed cooked chicken, preferably chicken breasts</li>
+            <li>1/2 tsp salt</li>
+            <li>1/4 tsp pepper</li>
+            <li>2 to 4 tbsp milk</li>
+            <li>2 tbsp chopped chives</li>
+            <li>2 cans crescent rolls</li>
+            <li>Crushed cornflakes, enough to coat</li>
+          </ul>
+        </div>
+
+        <div class="card recipe-steps">
+          <h3>Instructions</h3>
+          <ol>
+            <li>Cream together the cream cheese and 2 tablespoons of butter until smooth.</li>
+            <li>Mix in the cubed chicken, salt, pepper, 2 to 4 tablespoons of milk, and chopped chives until well combined.</li>
+            <li>Open the 2 cans of crescent rolls and divide each can into 4 rectangle pieces.</li>
+            <li>Use your fingers to smooth together the angled perforations so each piece forms a solid rectangle.</li>
+            <li>Divide the chicken mixture evenly onto the dough pieces.</li>
+            <li>Pull the 4 corners of each rectangle up to the top, twist to seal, and press the edges together well.</li>
+            <li>Brush each square with melted butter.</li>
+            <li>Lift each square with a spatula and place it into crushed cornflakes, coating well by tossing cornflakes over the top and pressing them in.</li>
+            <li>Place the coated squares on an ungreased cookie sheet.</li>
+            <li>Bake at 350°F for 35 to 40 minutes, or until golden brown.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Recipe notes</h3>
+        <ul>
+          <li>The original wording says 2 to 4 tablespoons milk, so use just enough to make the filling creamy and easy to scoop.</li>
+          <li>Chicken breasts are preferred, but any cooked chicken cut into small cubes should work.</li>
+          <li>Press the crescent dough seams together well so the filling stays enclosed while baking.</li>
+        </ul>
+      </div>
+    </section>
+
     <section id="view-sources" class="view">
       <div class="card">
         <h2>Sources</h2>
         <p>These are the main sources used for the current care content, triage logic, and disease pattern matching in this version of the app.</p>
       </div>
-
       <div class="grid-2" style="margin-top: 20px;">
         <a class="source-link card" href="https://www.aphis.usda.gov/livestock-poultry-disease/avian/defend-the-flock/signs-illness" target="_blank" rel="noopener noreferrer">
           <h3>USDA APHIS — Defend the Flock: Signs of Illness</h3>
           <p class="small">Core flock illness warning signs including sudden death, breathing changes, decreased egg production, swelling, purple discoloration, neurologic signs, and diarrhea.</p>
         </a>
-
         <a class="source-link card" href="https://www.aphis.usda.gov/livestock-poultry-disease/avian/virulent-newcastle" target="_blank" rel="noopener noreferrer">
           <h3>USDA APHIS — Virulent Newcastle Disease</h3>
           <p class="small">Used for severe respiratory and neurologic outbreak-style patterning such as torticollis, gasping, watery diarrhea, and high flock concern.</p>
         </a>
-
         <a class="source-link card" href="https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza" target="_blank" rel="noopener noreferrer">
           <h3>USDA APHIS — Avian Influenza</h3>
           <p class="small">Used for avian influenza signs, flock-level concern logic, and the importance of sudden deaths, respiratory distress, and rapid spread.</p>
         </a>
-
         <a class="source-link card" href="https://www.aphis.usda.gov/livestock-poultry-disease/avian/defend-the-flock/resources/how-protect-your-flock-avian-influenza" target="_blank" rel="noopener noreferrer">
           <h3>USDA APHIS — How to Protect Your Flock from Avian Influenza</h3>
           <p class="small">Used for biosecurity, monitoring, and outbreak-response guidance referenced in the app.</p>
         </a>
-
         <a class="source-link card" href="https://www.merckvetmanual.com/exotic-and-laboratory-animals/backyard-poultry/common-infectious-diseases-in-backyard-poultry" target="_blank" rel="noopener noreferrer">
           <h3>Merck Veterinary Manual — Common Infectious Diseases in Backyard Poultry</h3>
           <p class="small">Primary reference for disease group differentiation including Marek’s disease, avian encephalomyelitis, infectious bronchitis, fowlpox, leukosis, and colibacillosis context.</p>
         </a>
-
         <a class="source-link card" href="https://www.merckvetmanual.com/exotic-and-laboratory-animals/backyard-poultry/common-management-related-problems-in-backyard-poultry" target="_blank" rel="noopener noreferrer">
           <h3>Merck Veterinary Manual — Common Management-Related Problems in Backyard Poultry</h3>
           <p class="small">Used for noninfectious and management-linked concerns such as trauma, flock management issues, and common backyard problem framing.</p>
         </a>
-
         <a class="source-link card" href="https://www.merckvetmanual.com/exotic-and-laboratory-animals/backyard-poultry/management-of-backyard-poultry" target="_blank" rel="noopener noreferrer">
           <h3>Merck Veterinary Manual — Management of Backyard Poultry</h3>
           <p class="small">Used for general care, mixed-age flock considerations, heat stress, housing, and nutrition-related guidance.</p>
         </a>
-
         <a class="source-link card" href="https://www.merckvetmanual.com/poultry/mycoplasmosis/mycoplasma-gallisepticum-infection-in-poultry" target="_blank" rel="noopener noreferrer">
           <h3>Merck Veterinary Manual — Mycoplasma gallisepticum Infection in Poultry</h3>
           <p class="small">Used for chronic respiratory disease and “bubbly eye” style pattern matching.</p>
         </a>
-
         <a class="source-link card" href="https://extension.umn.edu/poultry-health/avian-influenza-basics-noncommercial-poultry-flock-owners" target="_blank" rel="noopener noreferrer">
           <h3>University of Minnesota Extension — Avian Influenza Basics for Noncommercial Poultry Flock Owners</h3>
           <p class="small">Used for separation of new birds, wild bird exposure risk, and flock biosecurity practices.</p>
         </a>
-
         <a class="source-link card" href="https://extension.unh.edu/resource/brooding-and-caring-chicks" target="_blank" rel="noopener noreferrer">
           <h3>UNH Extension — Brooding and Caring for Chicks</h3>
           <p class="small">Used for chick care, brooder heat guidance, and young-bird education content.</p>
@@ -534,16 +580,12 @@
       </div>
     </section>
   </main>
-
   <audio id="chickenSound" preload="auto">
     <source src="chicken-cluck.mp3" type="audio/mpeg" />
   </audio>
-
   <footer>App by D.R.Boehmer</footer>
-
   <script>
     const STORAGE_KEY = 'chicken_square_history_v5';
-
     const APP = {
       birdTypes: ['unknown', 'chick', 'growing bird', 'pullet', 'laying hen', 'rooster'],
       ages: ['unknown', 'under 4 weeks', '4-16 weeks', '16-32 weeks', 'adult layer age', 'older adult'],
@@ -661,7 +703,6 @@
         ]
       }
     };
-
     const DIAGNOSES = [
       {
         id: 'hpai_vnd',
@@ -977,7 +1018,6 @@
         monitor: 'Watch for recurrence after environmental correction, ongoing aggression, or signs that suggest an infectious cause instead.'
       }
     ];
-
     function init() {
       fillSelect('birdType', APP.birdTypes);
       fillSelect('birdAge', APP.ages);
@@ -990,12 +1030,10 @@
       renderEmptyResults();
       renderHistory();
     }
-
     function fillSelect(id, items) {
       const el = document.getElementById(id);
       el.innerHTML = items.map(v => `<option value="${escapeHtml(v)}">${escapeHtml(titleCase(v))}</option>`).join('');
     }
-
     function renderCheckboxGroup(containerId, items, name) {
       const container = document.getElementById(containerId);
       container.innerHTML = items.map(item => `
@@ -1005,7 +1043,6 @@
         </label>
       `).join('');
     }
-
     function renderCategoryButtons() {
       const container = document.getElementById('categoryContainer');
       container.innerHTML = APP.categories.map((item, idx) => `
@@ -1015,7 +1052,6 @@
         </label>
       `).join('');
     }
-
     function renderSymptoms() {
       const category = document.querySelector('input[name="primaryCategory"]:checked')?.value || APP.categories[0].id;
       const core = APP.symptoms.filter(s => s.categories.includes(category));
@@ -1030,7 +1066,6 @@
         </label>
       `).join('');
     }
-
     function getSelections() {
       const data = {
         birdType: document.getElementById('birdType').value,
@@ -1044,14 +1079,12 @@
       APP.contexts.forEach(c => { if (!(c.id in data)) data[c.id] = false; });
       return data;
     }
-
     function playChickenSound() {
       const sound = document.getElementById('chickenSound');
       if (!sound) return;
       sound.currentTime = 0;
       sound.play().catch(() => {});
     }
-
     function runAssessment() {
       playChickenSound();
       const data = getSelections();
@@ -1060,7 +1093,6 @@
       renderResults(data, result);
       navigate('results');
     }
-
     function evaluateAssessment(data) {
       const s = new Set(data.symptoms);
       const urgentFlags = [];
@@ -1070,7 +1102,6 @@
       if (data.suddenDeaths) urgentFlags.push('sudden flock deaths');
       if (s.has('cannotStand') && (s.has('twistedNeck') || s.has('flaccidNeck') || s.has('splitsLegs'))) urgentFlags.push('major neurologic impairment');
       if (s.has('wound')) urgentFlags.push('traumatic injury');
-
       let level = 'Soon';
       let title = 'Monitor closely';
       let reason = 'The pattern is concerning and should be followed closely.';
@@ -1079,7 +1110,6 @@
         'Track water intake, droppings, posture, and breathing over the next several hours.',
         'Re-run the checker if new signs appear.'
       ];
-
       if (!data.symptoms.length) {
         level = 'Routine';
         title = 'No symptom pattern selected';
@@ -1116,7 +1146,6 @@
           'Plan same-day veterinary or poultry-health follow-up, especially in chicks or laying hens with abdominal signs.'
         ];
       }
-
       const differentials = DIAGNOSES
         .map(d => {
           const score = Math.max(0, d.score(data, s));
@@ -1133,7 +1162,6 @@
         .filter(d => d.score > 0)
         .sort((a, b) => b.score - a.score)
         .slice(0, 5);
-
       if (!differentials.length && data.symptoms.length) {
         differentials.push({
           id: 'general',
@@ -1145,7 +1173,6 @@
           monitor: 'Watch for new differentiating signs such as eye foam, foul odor, green droppings, shell changes, lash egg, gray eye, or bloody mucus.'
         });
       }
-
       const contextNotes = [];
       if (data.birdType === 'chick') contextNotes.push('Chick selected: young-bird conditions such as coccidiosis, Pullorum, avian encephalomyelitis, and pasty butt rise higher.');
       if (data.birdType === 'laying hen') contextNotes.push('Laying hen selected: egg-binding, salpingitis, peritonitis, shell-quality disorders, and egg-drop patterns carry more weight.');
@@ -1157,12 +1184,9 @@
       if (data.hotWeather) contextNotes.push('Heat exposure adds weight to environmental stress patterns.');
       if (data.coldWeather) contextNotes.push('Cold exposure adds weight to frostbite or weather-related stress.');
       if (!contextNotes.length) contextNotes.push('Age, bird type, and symptom combinations still influence the scoring behind the scenes.');
-
       const selectedSymptoms = data.symptoms.map(id => APP.symptoms.find(sy => sy.id === id)?.label || id);
-
       return { level, title, reason, actions, differentials, contextNotes, selectedSymptoms };
     }
-
     function renderResults(data, result) {
       document.getElementById('resultsPrimary').innerHTML = `
         <div class="card level-card level-${escapeHtml(result.level)}">
@@ -1185,7 +1209,6 @@
           <ul>${result.selectedSymptoms.length ? result.selectedSymptoms.map(s => `<li>${escapeHtml(s)}</li>`).join('') : '<li>No symptoms selected</li>'}</ul>
         </div>
       `;
-
       const diffHtml = result.differentials.map(d => `
         <div class="diagnosis-card">
           <div class="diagnosis-head">
@@ -1198,7 +1221,6 @@
           <p class="small"><strong>Watch next:</strong> ${escapeHtml(d.monitor)}</p>
         </div>
       `).join('');
-
       document.getElementById('resultsSecondary').innerHTML = `
         <div class="card">
           <h3>Ranked likely patterns</h3>
@@ -1210,7 +1232,6 @@
         </div>
       `;
     }
-
     function renderEmptyResults() {
       document.getElementById('resultsPrimary').innerHTML = `
         <div class="card level-card level-Routine">
@@ -1231,7 +1252,6 @@
         </div>
       `;
     }
-
     function renderLearning() {
       const wrap = document.getElementById('learnContent');
       wrap.innerHTML = `
@@ -1244,7 +1264,6 @@
             </div>
           `).join('')}
         </div>
-
         <h2 class="section-heading">Disease pattern education</h2>
         <div class="grid-2">
           ${APP.education.diseaseFamilies.map(item => `
@@ -1254,14 +1273,12 @@
             </div>
           `).join('')}
         </div>
-
         <h2 class="section-heading">Management and common problems</h2>
         <div class="card">
           <ul>${APP.education.management.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
         </div>
       `;
     }
-
     function saveHistory(data, result) {
       const item = {
         ts: new Date().toLocaleString(),
@@ -1276,12 +1293,10 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(current.slice(0, 40)));
       renderHistory();
     }
-
     function readHistory() {
       try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
       catch { return []; }
     }
-
     function renderHistory() {
       const items = readHistory();
       const wrap = document.getElementById('historyList');
@@ -1301,12 +1316,10 @@
         </div>
       `).join('');
     }
-
     function clearHistory() {
       localStorage.removeItem(STORAGE_KEY);
       renderHistory();
     }
-
     function resetChecker() {
       document.getElementById('birdType').value = 'unknown';
       document.getElementById('birdAge').value = 'unknown';
@@ -1317,7 +1330,6 @@
       renderSymptoms();
       document.querySelectorAll('input[data-role="symptom"]').forEach(i => i.checked = false);
     }
-
     function navigate(viewId) {
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -1326,11 +1338,9 @@
       if (viewId === 'history') renderHistory();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
     function titleCase(value) {
       return String(value).split(' ').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
     }
-
     function escapeHtml(value) {
       return String(value)
         .replaceAll('&', '&amp;')
@@ -1339,7 +1349,6 @@
         .replaceAll('"', '&quot;')
         .replaceAll("'", '&#39;');
     }
-
     init();
   </script>
 </body>
