@@ -477,18 +477,69 @@
 
     <section id="view-sources" class="view">
       <div class="card">
-        <h2>Sources used for this version</h2>
-        <p>This app rebuild was aligned primarily to your uploaded avian disease research document and the earlier app structure.</p>
-        <ul>
-          <li>Chicken Disease Research and Symptoms.pdf</li>
-          <li>Original index.html structure and styling reference</li>
-        </ul>
-        <p class="small muted">For GitHub Pages, keep <strong>index.html</strong> and <strong>logo.png</strong> in the same repository folder.</p>
+        <h2>Sources</h2>
+        <p>These are the main sources used for the current care content, triage logic, and disease pattern matching in this version of the app.</p>
+      </div>
+
+      <div class="grid-2" style="margin-top: 20px;">
+        <a class="source-link card" href="https://www.aphis.usda.gov/livestock-poultry-disease/avian/defend-the-flock/signs-illness" target="_blank" rel="noopener noreferrer">
+          <h3>USDA APHIS — Defend the Flock: Signs of Illness</h3>
+          <p class="small">Core flock illness warning signs including sudden death, breathing changes, decreased egg production, swelling, purple discoloration, neurologic signs, and diarrhea.</p>
+        </a>
+
+        <a class="source-link card" href="https://www.aphis.usda.gov/livestock-poultry-disease/avian/virulent-newcastle" target="_blank" rel="noopener noreferrer">
+          <h3>USDA APHIS — Virulent Newcastle Disease</h3>
+          <p class="small">Used for severe respiratory and neurologic outbreak-style patterning such as torticollis, gasping, watery diarrhea, and high flock concern.</p>
+        </a>
+
+        <a class="source-link card" href="https://www.aphis.usda.gov/livestock-poultry-disease/avian/avian-influenza" target="_blank" rel="noopener noreferrer">
+          <h3>USDA APHIS — Avian Influenza</h3>
+          <p class="small">Used for avian influenza signs, flock-level concern logic, and the importance of sudden deaths, respiratory distress, and rapid spread.</p>
+        </a>
+
+        <a class="source-link card" href="https://www.aphis.usda.gov/livestock-poultry-disease/avian/defend-the-flock/resources/how-protect-your-flock-avian-influenza" target="_blank" rel="noopener noreferrer">
+          <h3>USDA APHIS — How to Protect Your Flock from Avian Influenza</h3>
+          <p class="small">Used for biosecurity, monitoring, and outbreak-response guidance referenced in the app.</p>
+        </a>
+
+        <a class="source-link card" href="https://www.merckvetmanual.com/exotic-and-laboratory-animals/backyard-poultry/common-infectious-diseases-in-backyard-poultry" target="_blank" rel="noopener noreferrer">
+          <h3>Merck Veterinary Manual — Common Infectious Diseases in Backyard Poultry</h3>
+          <p class="small">Primary reference for disease group differentiation including Marek’s disease, avian encephalomyelitis, infectious bronchitis, fowlpox, leukosis, and colibacillosis context.</p>
+        </a>
+
+        <a class="source-link card" href="https://www.merckvetmanual.com/exotic-and-laboratory-animals/backyard-poultry/common-management-related-problems-in-backyard-poultry" target="_blank" rel="noopener noreferrer">
+          <h3>Merck Veterinary Manual — Common Management-Related Problems in Backyard Poultry</h3>
+          <p class="small">Used for noninfectious and management-linked concerns such as trauma, flock management issues, and common backyard problem framing.</p>
+        </a>
+
+        <a class="source-link card" href="https://www.merckvetmanual.com/exotic-and-laboratory-animals/backyard-poultry/management-of-backyard-poultry" target="_blank" rel="noopener noreferrer">
+          <h3>Merck Veterinary Manual — Management of Backyard Poultry</h3>
+          <p class="small">Used for general care, mixed-age flock considerations, heat stress, housing, and nutrition-related guidance.</p>
+        </a>
+
+        <a class="source-link card" href="https://www.merckvetmanual.com/poultry/mycoplasmosis/mycoplasma-gallisepticum-infection-in-poultry" target="_blank" rel="noopener noreferrer">
+          <h3>Merck Veterinary Manual — Mycoplasma gallisepticum Infection in Poultry</h3>
+          <p class="small">Used for chronic respiratory disease and “bubbly eye” style pattern matching.</p>
+        </a>
+
+        <a class="source-link card" href="https://extension.umn.edu/poultry-health/avian-influenza-basics-noncommercial-poultry-flock-owners" target="_blank" rel="noopener noreferrer">
+          <h3>University of Minnesota Extension — Avian Influenza Basics for Noncommercial Poultry Flock Owners</h3>
+          <p class="small">Used for separation of new birds, wild bird exposure risk, and flock biosecurity practices.</p>
+        </a>
+
+        <a class="source-link card" href="https://extension.unh.edu/resource/brooding-and-caring-chicks" target="_blank" rel="noopener noreferrer">
+          <h3>UNH Extension — Brooding and Caring for Chicks</h3>
+          <p class="small">Used for chick care, brooder heat guidance, and young-bird education content.</p>
+        </a>
       </div>
     </section>
   </main>
 
-  <footer>App by Dakota Boehmer</footer>
+  <audio id="chickenSound" preload="auto">
+    <source src="chicken-cluck.mp3" type="audio/mpeg" />
+  </audio>
+
+  <footer>App by D.R.Boehmer</footer>
 
   <script>
     const STORAGE_KEY = 'chicken_square_history_v5';
@@ -994,7 +1045,15 @@
       return data;
     }
 
+    function playChickenSound() {
+      const sound = document.getElementById('chickenSound');
+      if (!sound) return;
+      sound.currentTime = 0;
+      sound.play().catch(() => {});
+    }
+
     function runAssessment() {
+      playChickenSound();
       const data = getSelections();
       const result = evaluateAssessment(data);
       saveHistory(data, result);
