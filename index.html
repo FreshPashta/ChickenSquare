@@ -68,12 +68,51 @@
       z-index: 100;
       border-bottom: 1px solid var(--border-color);
     }
+    .nav-shell {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      position: relative;
+    }
+    .nav-toggle {
+      display: none;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(30,30,30,0.45);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-primary);
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .nav-toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .nav-toggle-page {
+      color: var(--text-secondary);
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .nav-toggle-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
     .nav-inner {
       max-width: var(--maxw);
       margin: 0 auto;
       display: flex;
       gap: 10px;
-      overflow-x: auto;
+      align-items: center;
+      flex-wrap: wrap;
+      overflow-x: visible;
     }
     nav button {
       background: none;
@@ -379,7 +418,15 @@
         </span>
         <span class="nav-toggle-icon" id="navToggleIcon">☰</span>
       </button>
-      <div class="nav-inner" id="navMenu"></div>
+      <div class="nav-inner" id="navMenu">
+        <button id="nav-home" class="active" onclick="navigate('home')">Home</button>
+        <button id="nav-symptom-checker" onclick="navigate('symptom-checker')">Symptom Checker</button>
+        <button id="nav-results" onclick="navigate('results')">Results</button>
+        <button id="nav-learn" onclick="navigate('learn')">Care & Learning</button>
+        <button id="nav-history" onclick="navigate('history')">History</button>
+        <button id="nav-recipe" onclick="openRecipeMenu()">Chicken Squares</button>
+        <button id="nav-sources" onclick="navigate('sources')">Sources</button>
+      </div>
     </div>
   </nav>
   <main class="container">
@@ -390,7 +437,7 @@
             <div class="brand-copy">
               <h1>Chicken Square</h1>
               <p class="lead">A backyard chicken reference app designed just for you, Kaubs!
-              Feel free to share with anybody that has chickens.</p>
+              Feel free to share with anyone that has chickens.</p>
             </div>
             <img src="logo.png" alt="Chicken Square logo" class="brand-logo" />
           </div>
@@ -500,7 +547,7 @@
     <section id="view-learn" class="view">
       <div class="card">
         <h2>Care & Learning</h2>
-        <p>This section is for general chicken info.</p>
+        <p>This section is just for general chicken info.</p>
       </div>
       <div id="learnContent"></div>
     </section>
@@ -621,7 +668,7 @@
   <audio id="chickenSound" preload="auto">
     <source src="chicken-cluck.mp3" type="audio/mpeg" />
   </audio>
-  <footer>App by D.R.Boehmer</footer>
+  <footer>App by Dakota Boehmer</footer>
   <script>
     const STORAGE_KEY = 'chicken_square_history_v5';
     const APP = {
