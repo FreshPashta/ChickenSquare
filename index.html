@@ -6,7 +6,15 @@
   <meta name="theme-color" content="#4659c7" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Chicken Square</title>
-  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="icon" type="image/png" href="logo2.png" />
+  <link rel="apple-touch-icon" href="logo2.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Chicken Square" />
+  <meta property="og:title" content="Chicken Square" />
+  <meta property="og:image" content="logo2.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="logo2.png" />
   <style>
     :root {
       --bg-color: #121212;
@@ -33,9 +41,13 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    html, body { min-height: 100%; background-color: #121212; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: linear-gradient(180deg, #4c5fd0 0%, #355fbe 16%, #18202b 40%, #121212 100%);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-attachment: fixed;
       color: var(--text-primary);
       line-height: 1.6;
       padding-bottom: 64px;
@@ -330,19 +342,44 @@
       .brand-lockup { align-items: flex-start; gap: 16px; }
       .brand-logo { width: 122px; height: 122px; }
       .card { padding: 18px; }
+      .nav-toggle { display: flex; }
+      .nav-inner {
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 0;
+        right: 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        background: rgba(21,24,37,0.98);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 12px;
+        box-shadow: 0 14px 30px rgba(0,0,0,.28);
+      }
+      .nav-inner.open { display: grid; }
+      .nav-inner button {
+        width: 100%;
+        text-align: left;
+        white-space: normal;
+        min-height: 48px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+      }
     }
   </style>
 </head>
 <body>
   <nav>
-    <div class="nav-inner">
-      <button id="nav-home" class="active" onclick="navigate('home')">Home</button>
-      <button id="nav-symptom-checker" onclick="navigate('symptom-checker')">Symptom Checker</button>
-      <button id="nav-results" onclick="navigate('results')">Results</button>
-      <button id="nav-learn" onclick="navigate('learn')">Care & Learning</button>
-      <button id="nav-history" onclick="navigate('history')">History</button>
-      <button id="nav-recipe" onclick="navigate('recipe')">Chicken Squares</button>
-      <button id="nav-sources" onclick="navigate('sources')">Sources</button>
+    <div class="nav-shell">
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navMenu" onclick="toggleMobileMenu()">
+        <span class="nav-toggle-label">
+          <span>Menu</span>
+          <span class="nav-toggle-page" id="navCurrentLabel">Home</span>
+        </span>
+        <span class="nav-toggle-icon" id="navToggleIcon">☰</span>
+      </button>
+      <div class="nav-inner" id="navMenu"></div>
     </div>
   </nav>
   <main class="container">
@@ -1091,7 +1128,6 @@
       sound.play().catch(() => {});
     }
     function runAssessment() {
-      playChickenSound();
       const data = getSelections();
       const result = evaluateAssessment(data);
       saveHistory(data, result);
@@ -1335,11 +1371,32 @@
       renderSymptoms();
       document.querySelectorAll('input[data-role="symptom"]').forEach(i => i.checked = false);
     }
+    function toggleMobileMenu(forceOpen = null) {
+      const menu = document.getElementById('navMenu');
+      const toggle = document.getElementById('navToggle');
+      const icon = document.getElementById('navToggleIcon');
+      if (!menu || !toggle || !icon) return;
+      const shouldOpen = forceOpen === null ? !menu.classList.contains('open') : forceOpen;
+      menu.classList.toggle('open', shouldOpen);
+      toggle.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+      icon.textContent = shouldOpen ? '✕' : '☰';
+    }
+    function updateMobileNavLabel(viewId) {
+      const activeButton = document.getElementById('nav-' + viewId);
+      const label = document.getElementById('navCurrentLabel');
+      if (activeButton && label) label.textContent = activeButton.textContent;
+    }
+    function openRecipeMenu() {
+      playChickenSound();
+      navigate('recipe');
+    }
     function navigate(viewId) {
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.nav-inner button').forEach(b => b.classList.remove('active'));
       document.getElementById('view-' + viewId).classList.add('active');
       document.getElementById('nav-' + viewId).classList.add('active');
+      updateMobileNavLabel(viewId);
+      toggleMobileMenu(false);
       if (viewId === 'history') renderHistory();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1355,6 +1412,11 @@
         .replaceAll("'", '&#39;');
     }
     init();
+    updateMobileNavLabel('home');
+    document.addEventListener('click', (event) => {
+      const shell = document.querySelector('.nav-shell');
+      if (shell && !shell.contains(event.target)) toggleMobileMenu(false);
+    });
   </script>
 </body>
 </html>
