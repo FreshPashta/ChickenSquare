@@ -92,6 +92,7 @@ select {
 }
 
 .checkbox-label:hover { background-color: #383838; }
+.category-label span { flex: 1; }
 input[type="checkbox"], input[type="radio"] { width: 20px; height: 20px; cursor: pointer; }
 
 .btn {
@@ -241,157 +242,44 @@ const APP_DATA = {
     };
   },
 
-  getConcerns: function(selections) {
-    const symptoms = selections.symptoms || [];
-    const birdType = selections.birdType || '';
-    const age = selections.age || '';
-    const multipleAffected = selections.multipleBirds || symptoms.includes('others_affected');
+  getConcerns: function(symptoms) {
     const concerns = [];
-
-    const has = (id) => symptoms.includes(id);
-    const pushConcern = (title, matched, signs, watch, serious, extraScore = 0) => {
-      if (!matched.length) return;
-      const readable = matched.join(', ');
+    if (symptoms.includes('open_mouth_breathing') || symptoms.includes('cough_sneeze') || symptoms.includes('discharge')) {
       concerns.push({
-        title,
-        score: matched.length + extraScore,
-        why: `Ranked because you selected ${readable}.`,
-        signs,
-        watch,
-        serious
-      });
-    };
-
-    const respiratoryMatches = [];
-    if (has('open_mouth_breathing')) respiratoryMatches.push('open-mouth breathing / gasping');
-    if (has('cough_sneeze')) respiratoryMatches.push('coughing / sneezing');
-    if (has('discharge')) respiratoryMatches.push('nasal or eye discharge');
-    if (has('purple_comb')) respiratoryMatches.push('purple or bluish comb / face');
-    if (has('others_affected') || multipleAffected) respiratoryMatches.push('more than one bird affected');
-    if (has('recent_birds')) respiratoryMatches.push('recent new birds added');
-    pushConcern(
-      'Possible Respiratory Infection',
-      respiratoryMatches,
-      'Nasal or eye discharge, sneezing, coughing, rattly breathing, swollen face, or a dark comb in more severe cases.',
-      'Watch for spread to other birds, worsening breathing effort, or a bird starting to hold the mouth open to breathe.',
-      'Emergency if breathing becomes labored, the comb turns dark, or multiple birds start showing the same signs.',
-      has('open_mouth_breathing') ? 2 : 0
-    );
-
-    const reproductiveMatches = [];
-    if (has('straining')) reproductiveMatches.push('straining without laying');
-    if (has('distended_abdomen')) reproductiveMatches.push('distended abdomen');
-    if (has('reduced_eggs')) reproductiveMatches.push('reduced egg production');
-    if (birdType === 'laying hen') reproductiveMatches.push('laying hen selected');
-    pushConcern(
-      'Possible Egg-Binding / Reproductive Issue',
-      reproductiveMatches,
-      'Frequent visits to the nest box, penguin-like stance, waddling, swollen abdomen, or a sudden egg production change.',
-      'Watch for whether she passes an egg, keeps straining, or becomes weaker or more distended.',
-      'Emergency if she collapses, starts open-mouth breathing, or cannot remain upright.',
-      birdType === 'laying hen' ? 1 : 0
-    );
-
-    const intestinalMatches = [];
-    if (has('blood_droppings')) intestinalMatches.push('blood in droppings');
-    if (has('watery_droppings')) intestinalMatches.push('watery droppings');
-    if (has('hunched')) intestinalMatches.push('hunched / ruffled posture');
-    if (has('weight_loss')) intestinalMatches.push('weight loss / thin keel');
-    if (birdType === 'chick' || age === '< 4 weeks' || age === '1-5 months') intestinalMatches.push('young bird age');
-    pushConcern(
-      'Possible Coccidiosis or Intestinal Illness',
-      intestinalMatches,
-      'Bloody or watery droppings, hunched posture, weight loss, pale comb, and reduced appetite.',
-      'Watch droppings closely, keep bedding dry, and monitor how quickly the bird weakens or dehydrates.',
-      'Urgent if the bird stops drinking, droppings become bloody, or multiple young birds start declining.',
-      has('blood_droppings') ? 2 : 0
-    );
-
-    const mobilityMatches = [];
-    if (has('unable_stand')) mobilityMatches.push('unable to stand or walk');
-    if (has('paralysis')) mobilityMatches.push('paralysis or twisted neck');
-    if (birdType === 'chick' || birdType === 'pullet' || age === '1-5 months' || age === '6-12 months') mobilityMatches.push('younger bird age / type');
-    pushConcern(
-      'Possible Neurologic or Mobility Disorder',
-      mobilityMatches,
-      'Paralysis, twisted neck, inability to stand, weakness, or progressive lameness.',
-      'Watch for worsening leg weakness, neck twisting, inability to reach food and water, or other flockmates beginning similar neurologic signs.',
-      'Urgent if the bird cannot remain upright or is unable to eat or drink on its own.',
-      has('paralysis') ? 2 : 0
-    );
-
-    const bumblefootMatches = [];
-    if (has('swollen_foot')) bumblefootMatches.push('swollen foot pad / black scab');
-    if (has('unable_stand')) bumblefootMatches.push('unable to stand or bear weight');
-    pushConcern(
-      'Possible Bumblefoot',
-      bumblefootMatches,
-      'Limping, hot swollen foot pad, black scab, or pain using one foot.',
-      'Watch for heat, worsening swelling, drainage, or the infection tracking higher up the leg.',
-      'Urgent if swelling is severe, the bird stops walking, or infection appears to be spreading.',
-      has('swollen_foot') ? 2 : 0
-    );
-
-    const parasiteMatches = [];
-    if (has('weight_loss')) parasiteMatches.push('weight loss / thin keel');
-    if (has('hunched')) parasiteMatches.push('poor posture / looking unwell');
-    if (multipleAffected) parasiteMatches.push('more than one bird affected');
-    pushConcern(
-      'Possible Parasites or Chronic Management Issue',
-      parasiteMatches,
-      'Dirty vent feathers, pale comb, poor body condition, feather damage, mites, lice, or chronic decline.',
-      'Watch for visible bugs around the vent, worsening feather loss, or repeated decline across the flock.',
-      'More urgent if birds become anemic, weak, or multiple birds decline together.'
-    );
-
-    const stressMatches = [];
-    if (has('weather_stress')) stressMatches.push('recent heat or cold stress exposure');
-    if (has('open_mouth_breathing')) stressMatches.push('panting / breathing stress');
-    if (has('collapse')) stressMatches.push('collapse / unresponsiveness');
-    pushConcern(
-      'Possible Heat or Cold Stress',
-      stressMatches,
-      'Panting, wings held away from the body, lethargy after heat, or comb damage after cold.',
-      'Watch for continued panting, weakness, or signs that do not improve after environmental correction.',
-      'Emergency if the bird collapses or continues to struggle to breathe.'
-    );
-
-    const injuryMatches = [];
-    if (has('wound')) injuryMatches.push('visible wound or puncture');
-    if (has('bleeding')) injuryMatches.push('significant bleeding');
-    pushConcern(
-      'Possible Injury / Predator Attack',
-      injuryMatches,
-      'Missing feathers, punctures, torn skin, active bleeding, or shock after trauma.',
-      'Watch for hidden punctures, renewed bleeding, or shock-like weakness.',
-      'Emergency if bleeding cannot be stopped or the bird appears collapsed.',
-      has('bleeding') ? 2 : 0
-    );
-
-    const appetiteMatches = [];
-    if (has('not_eating')) appetiteMatches.push('not eating');
-    if (has('not_drinking')) appetiteMatches.push('not drinking');
-    if (has('hunched')) appetiteMatches.push('hunched / withdrawn posture');
-    pushConcern(
-      'Possible General Illness or Rapid Decline',
-      appetiteMatches,
-      'Reduced eating or drinking, sitting fluffed up, weakness, or a bird separating itself from the flock.',
-      'Watch how quickly the bird dehydrates and whether droppings, breathing, or mobility become more abnormal.',
-      'Urgent if the bird is not drinking, becomes weaker, or stops standing.'
-    );
-
-    if (!concerns.length) {
-      concerns.push({
-        title: 'Possible General Illness or Management Issue',
-        score: 1,
-        why: 'The selected signs are broad and do not point strongly to one pattern yet.',
-        signs: 'Hunched posture, hiding, reduced activity, or nonspecific change from normal.',
-        watch: 'Monitor closely in isolation and look for more specific clues such as abnormal droppings, breathing noise, swelling, or straining.',
-        serious: 'Urgent if the bird stops drinking, collapses, or more birds become affected.'
+        title: 'Possible Respiratory Infection', why: 'Classic signs of respiratory illness.', signs: 'Nasal/eye discharge, swollen face, sneezing, rattling breathe.', watch: 'Watch for spreading to other birds, worsening breathing distress.', serious: 'Emergency if breathing is labored (open-mouth, gasping).'
       });
     }
-
-    return concerns.sort((a, b) => b.score - a.score).slice(0, 6);
+    if (symptoms.includes('straining') || symptoms.includes('distended_abdomen')) {
+      concerns.push({
+        title: 'Possible Egg-Binding / Reproductive Issue', why: 'Straining in a laying hen points to reproductive tract issues.', signs: 'Frequent visits to nest box, penguin-like waddle.', watch: 'Watch for passing of the egg. Keep them in a dark, warm, quiet space.', serious: 'Emergency if she collapses or struggles to breathe.'
+      });
+    }
+    if (symptoms.includes('blood_droppings') || symptoms.includes('watery_droppings') && symptoms.includes('hunched')) {
+      concerns.push({
+        title: 'Possible Coccidiosis or Intestinal Illness', why: 'Common with internal infections or parasites, especially coccidia.', signs: 'Lethargy, bloody or mucousy poop, pale comb.', watch: 'Watch flock droppings carefully, maintain dry bedding.', serious: 'Urgent if bird stops drinking entirely.'
+      });
+    }
+    if (symptoms.includes('swollen_foot')) {
+      concerns.push({
+        title: 'Possible Bumblefoot', why: 'Swollen foot pad is classic bumblefoot (staph infection).', signs: 'Limping, hot/swollen foot pad, dark lesion on bottom of foot.', watch: 'Make roosts lower, check for sharp objects.', serious: 'Urgent if infection tracks up the leg.'
+      });
+    }
+    if (symptoms.includes('weather_stress')) {
+      concerns.push({
+        title: 'Possible Heat or Cold Stress', why: 'Extreme weather causing physical toll.', signs: 'Panting, wings away from body; pale/black comb tips.', watch: 'Provide shade, cool water.', serious: 'Emergency if heat stroke occurs.'
+      });
+    }
+    if (symptoms.includes('wound') || symptoms.includes('bleeding')) {
+      concerns.push({
+        title: 'Possible Injury / Predator Attack', why: 'External trauma.', signs: 'Missing feathers, bleeding, shock.', watch: 'Clean wound gently, isolate.', serious: 'Emergency if bleeding cannot be stopped.'
+      });
+    }
+    if (concerns.length === 0) {
+      concerns.push({
+        title: 'Possible General Illness or Management Issue', why: 'General lethargy means many things.', signs: 'Hunched posture, hiding.', watch: 'Monitor closely in isolation.', serious: 'If bird stops drinking or collapses.'
+      });
+    }
+    return concerns.slice(0, 6);
   },
 
   supportiveCare: [
@@ -443,16 +331,16 @@ const APP_DATA = {
     <script>
 document.addEventListener('DOMContentLoaded', () => { initApp(); });
 
-let currentSelections = { birdType: '', age: '', multipleBirds: false, category: '', symptoms: [], duration: '', trajectory: '' };
+let currentSelections = { birdType: '', age: '', multipleBirds: false, categories: [], symptoms: [], duration: '', trajectory: '' };
 
 function initApp() {
   const catContainer = document.getElementById('categories-container');
   if (catContainer && APP_DATA && APP_DATA.symptomCategories) {
     let catHtml = '';
-    APP_DATA.symptomCategories.forEach((cat, index) => {
-      catHtml += `<label class="checkbox-label" style="margin-bottom: 8px;">
-          <input type="radio" name="main-category" value="${cat.id}" ${index === 0 ? 'checked' : ''}>
-          ${cat.label}
+    APP_DATA.symptomCategories.forEach((cat) => {
+      catHtml += `<label class="checkbox-label category-label" style="margin-bottom: 8px;">
+          <input type="checkbox" name="main-category" value="${cat.id}" onchange="updateSymptomOptions()">
+          <span>${cat.label}</span>
         </label>`;
     });
     catContainer.innerHTML = catHtml;
@@ -476,8 +364,57 @@ function resetSymptomChecker() {
   document.getElementById('sc-step-2').style.display = 'none';
   document.getElementById('bird-type').value = '';
   document.getElementById('bird-age').value = '';
+  document.querySelectorAll('input[name="main-category"]').forEach(c => c.checked = false);
   document.querySelectorAll('input[name="symptom-checkbox"]').forEach(c => c.checked = false);
-  currentSelections = { birdType: '', age: '', multipleBirds: false, category: '', symptoms: [], duration: '', trajectory: 'stable' };
+  currentSelections = { birdType: '', age: '', multipleBirds: false, categories: [], symptoms: [], duration: '', trajectory: 'stable' };
+  updateSymptomOptions();
+}
+
+function getSelectedCategories() {
+  return Array.from(document.querySelectorAll('input[name="main-category"]:checked')).map(n => n.value);
+}
+
+function getRelevantSymptomsForCategories(categories) {
+  const extraIds = ['others_affected', 'weather_stress', 'recent_birds', 'sudden_deaths'];
+  let relevantSymptoms;
+  if (!categories.length) {
+    relevantSymptoms = APP_DATA.symptoms.slice();
+  } else {
+    relevantSymptoms = APP_DATA.symptoms.filter(s => s.categories.some(cat => categories.includes(cat)));
+  }
+  APP_DATA.symptoms.forEach(s => {
+    if (extraIds.includes(s.id) && !relevantSymptoms.includes(s)) relevantSymptoms.push(s);
+  });
+  return relevantSymptoms;
+}
+
+function updateSymptomOptions() {
+  const categories = getSelectedCategories();
+  const symContainer = document.getElementById('symptoms-container');
+  if (!symContainer) return;
+
+  const previouslyChecked = Array.from(document.querySelectorAll('input[name="symptom-checkbox"]:checked')).map(n => n.value);
+  const relevantSymptoms = getRelevantSymptomsForCategories(categories);
+
+  let html = '';
+  relevantSymptoms.forEach(sym => {
+    const checked = previouslyChecked.includes(sym.id) || currentSelections.symptoms.includes(sym.id);
+    html += `<label class="checkbox-label">
+        <input type="checkbox" name="symptom-checkbox" value="${sym.id}" ${checked ? 'checked' : ''}> ${sym.label}
+      </label>`;
+  });
+  if (html === '') html = `<p>No specific signs available yet for the selected groups.</p>`;
+  symContainer.innerHTML = html;
+
+  const summary = document.getElementById('category-selection-summary');
+  if (summary) {
+    if (!categories.length) {
+      summary.textContent = 'No primary groups selected yet. Select one or more groups to narrow the signs list, or continue to see all signs.';
+    } else {
+      const labels = APP_DATA.symptomCategories.filter(cat => categories.includes(cat.id)).map(cat => cat.label);
+      summary.textContent = 'Showing specific signs for: ' + labels.join(', ') + '.';
+    }
+  }
 }
 
 function goToStep2() {
@@ -485,27 +422,9 @@ function goToStep2() {
   currentSelections.age = document.getElementById('bird-age').value;
   const mbNode = document.querySelector('input[name="multiple-birds"]:checked');
   currentSelections.multipleBirds = mbNode ? mbNode.value === 'multiple' : false;
-  const catNode = document.querySelector('input[name="main-category"]:checked');
-  currentSelections.category = catNode ? catNode.value : '';
+  currentSelections.categories = getSelectedCategories();
 
-  if (!currentSelections.category) { alert("Please select a category."); return; }
-
-  const symContainer = document.getElementById('symptoms-container');
-  let relevantSymptoms = APP_DATA.symptoms.filter(s => s.categories.includes(currentSelections.category));
-  const extraIds = ['others_affected', 'weather_stress', 'recent_birds'];
-  APP_DATA.symptoms.forEach(s => {
-    if (extraIds.includes(s.id) && !relevantSymptoms.includes(s)) relevantSymptoms.push(s);
-  });
-
-  let html = '';
-  relevantSymptoms.forEach(sym => {
-    html += `<label class="checkbox-label">
-        <input type="checkbox" name="symptom-checkbox" value="${sym.id}"> ${sym.label}
-      </label>`;
-  });
-  if (html === '') html = `<p>No specific sub-symptoms. You can proceed below.</p>`;
-  symContainer.innerHTML = html;
-
+  updateSymptomOptions();
   document.getElementById('sc-step-1').style.display = 'none';
   document.getElementById('sc-step-2').style.display = 'block';
 }
@@ -514,12 +433,13 @@ function submitTriage() {
   const symNodes = document.querySelectorAll('input[name="symptom-checkbox"]:checked');
   const selectedSymptoms = Array.from(symNodes).map(n => n.value);
   currentSelections.symptoms = selectedSymptoms;
+  currentSelections.categories = getSelectedCategories();
   currentSelections.duration = document.getElementById('duration').value;
   const trajNode = document.querySelector('input[name="trajectory"]:checked');
   currentSelections.trajectory = trajNode ? trajNode.value : 'stable';
 
   const result = APP_DATA.evaluateTriage(currentSelections);
-  const concerns = APP_DATA.getConcerns(currentSelections);
+  const concerns = APP_DATA.getConcerns(selectedSymptoms);
 
   displayResults(result, concerns);
   saveToHistory(result);
@@ -730,21 +650,23 @@ function populateEducation() {
                 </div>
 
                 <div class="card">
-                    <h3>Main Concern Category</h3>
+                    <h3>Primary Symptom Groups</h3>
+                    <p>Select one or more broad groups if needed. The next screen will narrow the specific signs to match what you picked.</p>
                     <div class="form-group" id="categories-container">
                         <!-- Populated by JS -->
                     </div>
                 </div>
 
                 <div class="button-row">
-                    <button class="btn" onclick="goToStep2()">Next: Select Symptoms</button>
+                    <button class="btn" onclick="goToStep2()">Next: Select Specific Signs</button>
                 </div>
             </div>
 
             <div id="sc-step-2" class="sc-step" style="display: none;">
                 <div class="card">
-                    <h3>Select Specific Symptoms</h3>
-                    <p>Check all that apply based on your selected category.</p>
+                    <h3>Select Specific Signs</h3>
+                    <p>Choose all signs that apply. You can select multiple primary symptom groups, and the signs list will update to match them.</p>
+                    <p id="category-selection-summary" style="font-size: 0.9em; color: var(--text-secondary);">No primary groups selected yet. Select one or more groups to narrow the signs list, or continue to see all signs.</p>
                     <div class="checkbox-group" id="symptoms-container">
                         <!-- Populated by JS -->
                     </div>
